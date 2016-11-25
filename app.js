@@ -22,12 +22,39 @@ function mostFrequentWord(words) {
 
 //Data Merge
 function mergeDataStreams(stream1, stream2) {
-  if (stream1.id === stream2.id) {
-    var s2Keys = Object.keys(stream2);
-    for (var i=0; i<= s2Keys.length; i++) {
-      stream1[s2Keys[i]] = stream2[s2Keys[i]];
+  var result = stream1;
+  for (var i=0; i < stream1.length; i++) {
+    for (var x=0; x<stream2.length; x++) {
+      if (stream1[i].id === stream2[x].id) {
+        Object.assign(result[i], stream2[x]);
+      }
     }
   }
-  console.log(stream1);
-  return stream1;
+  return result;
+}
+
+//Recipe Factory
+function recipeFactory(name, ingredients, steps) {
+  var recipe = {
+    name: name,
+    ingredients: ingredients,
+    steps: steps,
+    stepsHtml: function() {
+      var sHtml = "<ol>";
+      for (var i=0; i<= steps.length; i++) {
+        sHtml += ("<li>"+steps[i]+"</li>")
+      }
+      sHtml += "</ol>";
+      return sHtml;
+    },
+    ingredientsHtml: function () {
+      var iHtml = "";
+      for (var i=0; i< (ingredients.length-1); i++) {
+        iHtml += (" "+ingredients[i]+",");
+      }
+      iHtml += (" "+ingredients[ingredients.length-1])
+      return iHtml;
+    },
+  }
+  return recipe;
 }
